@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-black text-primary">Наявні Клієнти</h2>
+        </div>
+        <div class="col-6 text-end">
+           <a asp-controller="Client" asp-action="Create" class="btn btn-light">
+                <i class="bi bi-clipboard2-plus"></i> &nbsp; Додати нового клієнта
+            </a>
+        </div>
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>П.І.Б</th>
+                <th>Серія Паспорту</th>
+                <th>Номер Паспорту</th>
+                <th>Номер Телефону</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.FullName</td>
+                    <td>@obj.PassportSerial</td>
+                    <td>@obj.PassportNumber</td>
+                    <td>@obj.PhoneNumber</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
