@@ -9,7 +9,7 @@
             <h2 class="text-black text-primary">Наявні Клієнти</h2>
         </div>
         <div class="col-6 text-end">
-           <a asp-controller="Client" asp-action="Create" class="btn btn-light">
+           <a asp-controller="Client" asp-action="Upsert" class="btn btn-light">
                 <i class="bi bi-clipboard2-plus"></i> &nbsp; Додати нового клієнта
             </a>
         </div>
@@ -23,7 +23,7 @@
                 <th>Серія Паспорту</th>
                 <th>Номер Паспорту</th>
                 <th>Номер Телефону</th>
-            </tr>
+                <th></th>
         </thead>
         <tbody>
             @foreach (var obj in Model)
@@ -33,6 +33,13 @@
                     <td>@obj.PassportSerial</td>
                     <td>@obj.PassportNumber</td>
                     <td>@obj.PhoneNumber</td>
+                    <td>
+                        <div class="btn-qroup text-center" role="group">
+                            <a asp-controller="Client" asp-action="Upsert" asp-route-id="@obj.Id"><i class="bi bi-pencil"></i></a>
+                            &nbsp;
+                            <a asp-controller="Client" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash"></i></a>
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>
