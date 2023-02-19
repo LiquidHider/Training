@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Training.Web.Data;
 using Training.Web.Models;
 
@@ -7,75 +8,89 @@ namespace Training.Web.Controllers
     public class ClientController : Controller
     {
         private readonly ApplicationDBContext _db;
+
         public ClientController(ApplicationDBContext db)
         {
             _db = db;
         }
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Client> objClientList = _db.Clients;
+            IEnumerable<Client> objClientList = await _db.Clients.ToListAsync();
             return View(objClientList);
         }
+
         //GET
-        public IActionResult Upsert(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Upsert(int? id)
         {
             Client client = new();
+
             if(id ==null || id == 0)
             {
                 return View(client);
             }
             else
             {
-                client = _db.Clients.FirstOrDefault(u => u.Id == id);
+                client = await _db.Clients.FirstOrDefaultAsync(u => u.Id == id);
                 return View(client);
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Client obj)
+        public async Task<IActionResult> UpsertAsync(Client obj)
         {
             if(ModelState.IsValid)
             {
                 if(obj.Id == 0)
                 {
-                    _db.Clients.Add(obj);
+                    await _db.Clients.AddAsync(obj);
                 }
                 else
                 {
                     _db.Clients.Update(obj);
                 }
-                _db.SaveChanges();
+
+                await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(obj);
         }
+
         //GET
-        public IActionResult Delete(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var client = _db.Clients.FirstOrDefault(u => u.Id == id);
+
+            var client = await _db.Clients.FirstOrDefaultAsync(u => u.Id == id);
+
             if(client == null)
             {
                 return NotFound();
             }
+
             return View(client);
         }
 
         //POST
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
+        public async Task<IActionResult> DeletePOST(int? id)
         {
-           var client = _db.Clients.FirstOrDefault(u => u.Id == id);
+           var client = await _db.Clients.FirstOrDefaultAsync(u => u.Id == id);
+
            if(client == null)
            {
                return NotFound();
            }
             _db.Clients.Remove(client);
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
