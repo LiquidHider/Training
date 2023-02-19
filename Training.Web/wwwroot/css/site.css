@@ -55,3 +55,8 @@ body {
     white-space: nowrap;
     line-height: 60px;
 }
+
+.form-location{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}

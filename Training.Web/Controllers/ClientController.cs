@@ -41,6 +41,7 @@ namespace Training.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpsertPostAsync(Client obj)
         {
+            
             if(ModelState.IsValid)
             {
                 if(obj.Id == 0)
