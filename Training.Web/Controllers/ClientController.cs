@@ -21,8 +21,8 @@ namespace Training.Web.Controllers
         }
 
         //GET
-        [HttpGet]
-        public async Task<IActionResult> Upsert(int? id)
+        [HttpGet, ActionName("Upsert")]
+        public async Task<IActionResult> UpsertGetAsync(int? id)
         {
             Client client = new();
 
@@ -37,9 +37,9 @@ namespace Training.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Upsert")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpsertAsync(Client obj)
+        public async Task<IActionResult> UpsertPostAsync(Client obj)
         {
             if(ModelState.IsValid)
             {
@@ -60,8 +60,8 @@ namespace Training.Web.Controllers
         }
 
         //GET
-        [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        [HttpGet, ActionName("Delete")]
+        public async Task<IActionResult> DeleteGetAsync(int? id)
         {
             if (id == null || id == 0)
             {
@@ -81,7 +81,7 @@ namespace Training.Web.Controllers
         //POST
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePOST(int? id)
+        public async Task<IActionResult> DeletePostAsync(int? id)
         {
            var client = await _db.Clients.FirstOrDefaultAsync(u => u.Id == id);
 
