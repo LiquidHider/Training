@@ -34,6 +34,7 @@ namespace Training.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(Client obj)
         {
+            
             if(ModelState.IsValid)
             {
                 if(obj.Id == 0)
@@ -49,6 +50,7 @@ namespace Training.Web.Controllers
             }
             return View(obj);
         }
+
         //GET
         public IActionResult Delete(int? id)
         {

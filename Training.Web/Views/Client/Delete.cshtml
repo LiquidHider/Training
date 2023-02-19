@@ -1,13 +1,13 @@
 @model Client
 
+<div class="form-location"><div></div>
 <form method="post" asp-action="Delete">
   <input asp-for="Id" hidden />
-  
-  <div class="row">
+  <div class="align-content-center" style="display: flex; justify-content: center;">
     <div class="col-10">
       <div class="border p-3 mt-4 row">
         <div class="col-12 pb-2">
-            <h2 class="text-primary">Delete Client Info</h2>
+            <h3 class="text-primary">Видалення Клієнта</h3>
             <hr />
         </div>
         <div class="mb-3">
@@ -27,11 +27,11 @@
             <input asp-for="PhoneNumber" disabled class="form-control" />
         </div>
         
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary" style="width:150px">Delete</button>
-                    <a asp-controller="Client" asp-action="Index" class="btn btn-secondary" style="width:150px">Відміна</a>
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary" style="width:150px">Видалити</button>
+            <a asp-controller="Client" asp-action="Index" class="btn btn-danger" style="width:150px">Скасувати</a>
         </div>
      </div>
     </div> 
    </div>
-</form>
+</form><div></div></div>
