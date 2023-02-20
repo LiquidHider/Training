@@ -24,7 +24,7 @@ namespace Training.Web.Controllers
                 AppraisedValue= p.AppraisedValue ,
                 Category = p.Category,
                 CategoryId = p.CategoryId,
-                Commision = (p.AppraisedValue * p.Category.Commision) / 100
+                Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100,2)
              }).ToList();
 
 
@@ -80,7 +80,7 @@ namespace Training.Web.Controllers
                 return NotFound();
             }
 
-            var good = await _db.Goods.FirstOrDefaultAsync(u => u.Id == id);
+            var good = await _db.Goods.Include(p => p.Category).FirstOrDefaultAsync(u => u.Id == id);
 
             if (good == null)
             {
@@ -96,7 +96,7 @@ namespace Training.Web.Controllers
         public async Task<IActionResult> DeletePostAsync(int? id)
         {
             var good = await _db.Goods.FirstOrDefaultAsync(u => u.Id == id);
-
+            
             if (good == null)
             {
                 return NotFound();

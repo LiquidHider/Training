@@ -14,12 +14,6 @@ namespace Training.Web.Controllers
             _db = db;
         }
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    IEnumerable<Category> objClientList = await _db.Categories.ToListAsync();
-        //    return View(objClientList);
-        //}
-
         //GET
         [HttpGet, ActionName("Upsert")]
         public async Task<IActionResult> UpsertGetAsync(int? id)
@@ -84,7 +78,13 @@ namespace Training.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePostAsync(int? id)
         {
+         
             var category = await _db.Categories.FirstOrDefaultAsync(u => u.Id == id);
+            bool isGoodsWithSelectedCategoryExists = _db.Goods.Any(i => i.CategoryId == id);
+            if(isGoodsWithSelectedCategoryExists)
+            {
+                return Forbid();
+            }
 
             if (category == null)
             {
