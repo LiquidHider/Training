@@ -46,7 +46,7 @@ namespace Training.Web.Controllers
             {
                 good = await _db.Goods.FirstOrDefaultAsync(u => u.Id == id);
                 return View(good);
-            }
+            } 
         }
 
         [HttpPost, ActionName("Upsert")]

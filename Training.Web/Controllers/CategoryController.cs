@@ -83,7 +83,9 @@ namespace Training.Web.Controllers
             bool isGoodsWithSelectedCategoryExists = _db.Goods.Any(i => i.CategoryId == id);
             if(isGoodsWithSelectedCategoryExists)
             {
-                return Forbid();
+                TempData["error"] = "Не можна видалити Категорію , бо існують товари з заданою категорією";
+                return RedirectToAction(nameof(Index), nameof(Good));
+                //return Forbid();
             }
 
             if (category == null)
