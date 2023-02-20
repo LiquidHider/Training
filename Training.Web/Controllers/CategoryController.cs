@@ -85,7 +85,6 @@ namespace Training.Web.Controllers
             {
                 TempData["error"] = "Не можна видалити Категорію , бо існують товари з заданою категорією";
                 return RedirectToAction(nameof(Index), nameof(Good));
-                //return Forbid();
             }
 
             if (category == null)
