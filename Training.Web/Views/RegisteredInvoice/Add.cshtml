@@ -1,0 +1,55 @@
+@model RegisteredInvoice
+@{
+    var nowLoadTime = DateTime.Now.AddMinutes(1).ToString("yyyy-MM-ddTHH:mm");
+    var endLoadTime = DateTime.Now.AddMinutes(16).ToString("yyyy-MM-ddTHH:mm");
+}
+
+<div class="form-location">
+    <div></div>
+    <form method="post" asp-controller="RegisteredInvoice" asp-action="Add" enctype="multipart/form-data">
+        <input asp-for="Id" hidden />
+        <div class="align-content-center" style="display: flex; justify-content: center;">
+            <div class="col-10">
+                <div class="border p-3 mt-4 row">
+                    <div class="col-12 pb-2">
+                        <h3 class="text-primary">Додавання Іменної Накладної на товар: @Model.Good.Name</h3>
+                        <hr />
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="mb-3 col-6">
+                            <label asp-for="ReceiptDate" class="form-label">Дата та час початку</label>
+                            <input type="datetime-local" value="@nowLoadTime" data-val="true" asp-for="ReceiptDate" class="form-control bg-secondary" />
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="StorageDate" class="form-label">Дата та час закінчення</label>
+                            <input type="datetime-local" value="@endLoadTime" data-val="true" asp-for="StorageDate" class="form-control bg-secondary" />
+                        </div>
+                        <span asp-validation-for="ReceiptDate" class="text-danger"></span>
+                        <span asp-validation-for="StorageDate" class="text-danger"></span>
+                    </div>
+                    <input hidden asp-for="Good" name="goodsClass" value="@Json.Serialize(Model.Good)"></input>
+                    <div class="mb-3">
+                        <label asp-for="Client"></label>
+                        <select asp-for="ClientId" class="form-select">
+                            <option value="">--Оберіть Клієнта--</option>
+                            @foreach(var item in ViewBag.Clients)
+                            {
+                                <option value="@(((Client)item).Id)">@(((Client)item).FullName)</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary" style="width:150px">Створити</button>
+                        <a asp-controller="Good" asp-action="Index" class="btn btn-danger" style="width:150px">Скасувати</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form><div></div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

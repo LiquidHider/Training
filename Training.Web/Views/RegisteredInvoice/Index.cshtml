@@ -1,0 +1,36 @@
+@model IEnumerable<RegisteredInvoice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-black text-primary">Наявні Іменні Накладні</h2>
+        </div>
+    </div>
+    <br />
+
+    <table class="table table-bordered table-striped" style="width:100%">
+        <thead>
+            <tr class="table-primary">
+                <th>Дата прийняття</th>
+                <th>Дата закінчення зберігання</th>
+                <th>Товар</th>
+                <th>Клієнт</th>
+                <th></th>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="30%">@obj.ReceiptDate</td>
+                    <td width="30%">@obj.StorageDate</td>
+                    <td width="15%">@obj.Good.Name</td>
+                    <td width="15%">@obj.Client.FullName</td>
+                    <td width="10%"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

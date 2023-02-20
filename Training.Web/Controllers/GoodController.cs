@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Xml.Linq;
 using Training.Web.Data;
 using Training.Web.Models;
@@ -55,17 +56,14 @@ namespace Training.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (obj.Id == 0)
-                {
-                    await _db.Goods.AddAsync(obj);
-                }
-                else
+                if (obj.Id != 0)
                 {
                     _db.Goods.Update(obj);
+                    await _db.SaveChangesAsync();
                 }
-
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), nameof(Good));
+                var serializedObj = JsonConvert.SerializeObject(obj);
+                TempData["currentGoods"] = serializedObj;
+                return RedirectToAction("Add", nameof(RegisteredInvoice));
             }
 
             return View(obj);
