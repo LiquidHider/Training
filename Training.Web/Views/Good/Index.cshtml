@@ -95,7 +95,7 @@
                         <div class="btn-qroup text-center" role="group">
                             @if(((int)obj.Status) == 1)
                             {
-                                <button type="button">Виставити на продаж</button>
+                                <a class="btn btn-primary" asp-controller="Good" asp-action="PutOnSale" asp-route-id="@obj.Id">Виставити на продаж</a>
                             }
                             @if(((int)obj.Status) == 2)
                             {

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Xml.Linq;
 using Training.Web.Data;
 using Training.Web.Models;
 using Training.Web.Services;
@@ -43,6 +41,17 @@ namespace Training.Web.Controllers
 
             var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel };
             return View(model);
+        }
+
+        [HttpGet, ActionName("PutOnSale")]
+        public async Task<IActionResult> PutUpForSale(int? id) 
+        {
+            var goods = _db.Goods.FirstOrDefaultAsync(x => x.Id == id).Result;
+            _goodsService.PutUpOnSale(goods);
+            _db.Update(goods);
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", nameof(Good));
         }
 
         [HttpGet, ActionName("Upsert")]
