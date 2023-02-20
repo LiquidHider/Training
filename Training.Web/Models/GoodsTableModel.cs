@@ -2,9 +2,8 @@
 
 namespace Training.Web.Models
 {
-    public class GoodsWithCommision
+    public class GoodsTableModel
     {
-
         public int Id { get; set; }
 
         public string Name { get; set; }

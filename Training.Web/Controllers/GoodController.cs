@@ -18,18 +18,18 @@ namespace Training.Web.Controllers
         {
             IEnumerable<Category> objCategoryList = await _db.Categories.ToListAsync();
             IEnumerable<Good> objGoodList = await _db.Goods.ToListAsync();
-            var objGoodsWithCommision = objGoodList.Select(p => new GoodsWithCommision { 
-                Id = p.Id ,
-                Name = p.Name ,
-                Description= p.Description ,
-                AppraisedValue= p.AppraisedValue ,
+            var objGoodsTableModel = objGoodList.Select(p => new GoodsTableModel { 
+                Id = p.Id,
+                Name = p.Name,
+                Description= p.Description,
+                AppraisedValue= p.AppraisedValue,
                 Category = p.Category,
                 CategoryId = p.CategoryId,
                 Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100,2)
              }).ToList();
 
 
-            var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsWithCommision };
+            var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel };
             return View(model);
         }
 
