@@ -1,32 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using Training.Web.Data;
 using Training.Web.Models;
+using Training.Web.Services;
 
 namespace Training.Web.Controllers
 {
     public class GoodController : Controller
     {
         private readonly ApplicationDBContext _db;
-        public GoodController(ApplicationDBContext db)
+        private readonly IGoodsService _goodsService;
+        public GoodController(ApplicationDBContext db, IGoodsService goodsService)
         {
             _db = db;
+            _goodsService = goodsService;
         }
         public async Task<IActionResult> Index()
         {
             IEnumerable<Category> objCategoryList = await _db.Categories.ToListAsync();
-            IEnumerable<Good> objGoodList = await _db.Goods.ToListAsync();
-            var objGoodsTableModel = objGoodList.Select(p => new GoodsTableModel { 
-                Id = p.Id,
-                Name = p.Name,
-                Description= p.Description,
-                AppraisedValue= p.AppraisedValue,
-                Category = p.Category,
-                CategoryId = p.CategoryId,
-                Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100,2)
-             }).ToList();
+            IEnumerable<RegisteredInvoice> registeredInvoices = await _db.RegisteredInvoices.Include(x => x.Good).ToListAsync();
+            IEnumerable<Good> objGoodList = registeredInvoices.Select(x => x.Good).ToList();
+            foreach (var item in registeredInvoices) 
+            {
+                _goodsService.CheckStorageExpirationDate(item);
+            }
+            
+            var objGoodsTableModel = objGoodList.Select(p => 
+                new GoodsTableModel {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Status = p.Status,
+                    AppraisedValue = p.AppraisedValue,
+                    Category = p.Category,
+                    CategoryId = p.CategoryId,
+                    Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)}
+            ).ToList();
 
 
             var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel };

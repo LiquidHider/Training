@@ -25,6 +25,7 @@
                         <tr class="table-primary">
                             <th>Назва </th>
                             <th>Комісійні</th>
+                            <th>Статус</th>
                             <th></th>
                     </thead>
                     <tbody>
@@ -62,11 +63,13 @@
     <table class="table table-bordered table-striped" style="width:100%;">
         <thead>
             <tr class="table-primary">
-                <th>Назва </th>
+                <th>Назва</th>
+                <th>Статус</th>
                 <th>Опис</th>
                 <th>Оціночна Вартість, грн</th>
                 <th>Категорія</th>
                 <th>Розраховані комісійні, грн</th>
+                <th></th>
                 <th></th>
         </thead>
         <tbody>
@@ -74,10 +77,12 @@
             {
                 <tr>
                     <td>@obj.Name</td>
+                    <td>@obj.Status</td>
                     <td>@obj.Description</td>
                     <td>@obj.AppraisedValue</td>
                     <td>@obj.Category.Name</td>
                     <td>@obj.Commision</td>
+                    
                     <td width="10%">
                         <div class="btn-qroup text-center" role="group">
                             <a asp-controller="Good" asp-action="Upsert" asp-route-id="@obj.Id"><i class="bi bi-pencil"></i></a>
@@ -85,6 +90,20 @@
                             <a asp-controller="Good" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash"></i></a>
                         </div>
                     </td>
+
+                    <td width="10%">
+                        <div class="btn-qroup text-center" role="group">
+                            @if(((int)obj.Status) == 1)
+                            {
+                                <button type="button">Виставити на продаж</button>
+                            }
+                            @if(((int)obj.Status) == 2)
+                            {
+                                <button type="button">Продати</button>
+                            }
+                        </div>
+                    </td>
+                    
                 </tr>
             }
         </tbody>
