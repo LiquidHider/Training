@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Training.Web.Data;
+using Training.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +11,9 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlSer
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));;
 
-var app = builder.Build();
+builder.Services.AddScoped<IGoodsService, GoodsService>();
 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
