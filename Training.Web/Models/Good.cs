@@ -14,7 +14,7 @@ namespace Training.Web.Models
         [Required, Display(Name = "Назва"), MaxLength(50)]
         public string Name { get; set; }
 
-        [Required, Display(Name = "Статус"), MaxLength(15)]
+        [Required, Display(Name = "Статус")]
         public GoodsStatus Status { get; set; }
 
         [Display(Name = "Опис"), MaxLength(100)]

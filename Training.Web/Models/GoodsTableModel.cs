@@ -6,7 +6,7 @@ namespace Training.Web.Models
     {
         public int Id { get; set; }
 
-        public string Status { get; set; }
+        public GoodsStatus Status { get; set; }
 
         public string Name { get; set; }
 
