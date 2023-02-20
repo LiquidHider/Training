@@ -6,9 +6,9 @@ namespace Training.Web.Services
     {
         public void CheckStorageExpirationDate(RegisteredInvoice invoice)
         {
-            bool isGoodsNotOnSaleOrNotSold = invoice.Good.Status != GoodsStatus.Sold || invoice.Good.Status != GoodsStatus.OnSale;
+            bool isGoodsNotOnSaleOrNotSold = invoice.Good.Status != GoodsStatus.Sold && invoice.Good.Status != GoodsStatus.OnSale;
             bool isStorageTimeExpired = DateTime.Now > invoice.StorageDate;
-            if (isStorageTimeExpired) 
+            if (isStorageTimeExpired && isGoodsNotOnSaleOrNotSold) 
             {
                 invoice.Good.Status = GoodsStatus.Expired;
                 return;
