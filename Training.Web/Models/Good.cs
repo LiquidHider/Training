@@ -21,6 +21,7 @@ namespace Training.Web.Models
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         [ValidateNever]
+        [Display(Name = "Категорія товару")]
         public Category Category { get; set; }
 
     }

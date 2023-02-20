@@ -22,6 +22,7 @@ namespace Training.Web.Models
         public int GoodId { get; set; }
         [ForeignKey("GoodId")]
         [ValidateNever]
+        [Display(Name = "Товар")]
         public Good Good { get; set; }
 
         //--Second FK--//
@@ -29,6 +30,7 @@ namespace Training.Web.Models
         public int ClientId { get; set; }
         [ForeignKey("ClientId")]
         [ValidateNever]
+        [Display(Name = "Клієнт")]
         public Client Client { get; set; }
 
     }
