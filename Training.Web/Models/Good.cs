@@ -11,12 +11,11 @@ namespace Training.Web.Models
         [Key]
         public int Id { get; set; }
 
-
         [Required, Display(Name = "Назва"), MaxLength(50)]
         public string Name { get; set; }
 
         [Required, Display(Name = "Статус"), MaxLength(15)]
-        public string Status { get; set; }
+        public GoodsStatus Status { get; set; }
 
         [Display(Name = "Опис"), MaxLength(100)]
         public string Description { get; set; }
