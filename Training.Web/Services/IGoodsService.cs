@@ -7,5 +7,6 @@ namespace Training.Web.Services
         void CheckStorageExpirationDate(RegisteredInvoice invoice);
         void Sell(Good goods);
         void PutUpOnSale(Good goods);
+        void Return(Good goods);
     }
 }

@@ -54,6 +54,17 @@ namespace Training.Web.Controllers
             return RedirectToAction("Index", nameof(Good));
         }
 
+        [HttpGet, ActionName("Return")]
+        public async Task<IActionResult> Return(int? id)
+        {
+            var goods = _db.Goods.FirstOrDefaultAsync(x => x.Id == id).Result;
+            _goodsService.Return(goods);
+            _db.Update(goods);
+
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Index", nameof(Good));
+        }
+
         [HttpGet, ActionName("Upsert")]
         public async Task<IActionResult> UpsertGetAsync(int? id)
         {

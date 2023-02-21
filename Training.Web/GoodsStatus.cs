@@ -6,5 +6,6 @@
         Expired,
         OnSale,
         Sold,
+        Returned
     }
 }

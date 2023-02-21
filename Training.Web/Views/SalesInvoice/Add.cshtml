@@ -2,8 +2,8 @@
 
 <div class="form-location">
     <div></div>
-    <form method="post" asp-controller="RegisteredInvoice" asp-action="Add" enctype="multipart/form-data">
-        <input asp-for="Id" hidden />
+    <form method="post" asp-controller="SalesInvoice" asp-action="Add" enctype="multipart/form-data">
+        <input asp-for="Id" value="0" hidden />
         <div class="align-content-center" style="display: flex; justify-content: center;">
             <div class="col-10">
                 <div class="border p-3 mt-4 row">
@@ -13,13 +13,14 @@
                     </div>
                     <div class="mb-3">
                         <label asp-for="Сount"></label>
-                        <input asp-for="Сount" class="form-control" />
+                        <input asp-for="Сount" disabled class="form-control" />
                         <span asp-validation-for="Сount" class="text-danger"></span>
                     </div>
                      <div class="mb-3">
                         <label>Ціна за шт.</label>
-                        <input asp-for="@Model.Sell.Price" disable class="form-control" />
+                        <input asp-for="@Model.Sell.Price" class="form-control" />
                     </div>
+                    <input hidden asp-for="Sell" name="sellClass" value="@Json.Serialize(Model.Sell)"> </input>
                     <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary" style="width:150px">Створити</button>
                         <a asp-controller="Good" asp-action="Index" class="btn btn-danger" style="width:150px">Скасувати</a>

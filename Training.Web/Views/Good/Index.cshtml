@@ -24,16 +24,15 @@
                     <thead>
                         <tr class="table-primary">
                             <th>Назва </th>
-                            <th>Комісійні</th>
-                            <th>Статус</th>
+                            <th>Комісійні, %</th>
                             <th></th>
                     </thead>
                     <tbody>
                         @foreach (var obj in Model.CategoryList)
                         {
                             <tr>
-                                <td >@obj.Name</td>
-                                <td >@obj.Commision</td>
+                                <td width="30%">@obj.Name</td>
+                                <td width="10%">@obj.Commision</td>
                                 <td width="10%">
                                     <div class="btn-qroup text-center" role="group">
                                         <a asp-controller="Category" asp-action="Upsert" asp-route-id="@obj.Id"><i class="bi bi-pencil"></i></a>
@@ -93,13 +92,17 @@
 
                     <td width="10%">
                         <div class="btn-qroup text-center" role="group">
+                            @if (((int)obj.Status) == 0)
+                            {
+                                <a class="btn btn-success" asp-controller="Good" asp-action="Return" asp-route-id="@obj.Id">Повернути</a>
+                            }
                             @if(((int)obj.Status) == 1)
                             {
                                 <a class="btn btn-primary" asp-controller="Good" asp-action="PutOnSale" asp-route-id="@obj.Id">Виставити на продаж</a>
                             }
                             @if(((int)obj.Status) == 2)
                             {
-                                <button type="button">Продати</button>
+                                <a class="btn btn-danger" method="get" asp-controller="SalesInvoice" asp-action="Add" asp-route-id="@obj.Id">Продати</a>
                             }
                         </div>
                     </td>

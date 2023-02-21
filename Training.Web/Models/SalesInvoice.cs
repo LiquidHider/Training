@@ -10,7 +10,7 @@ namespace Training.Web.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int Сount { get; set; }
+        public int Сount { get; set; } = 1;
         [ValidateNever]
         public int SellId { get; set; }
         [ForeignKey("SellId")]

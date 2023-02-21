@@ -6,7 +6,10 @@ namespace Training.Web.Services
     {
         public void CheckStorageExpirationDate(RegisteredInvoice invoice)
         {
-            bool isGoodsNotOnSaleOrNotSold = invoice.Good.Status != GoodsStatus.Sold && invoice.Good.Status != GoodsStatus.OnSale;
+            bool isGoodsNotOnSaleOrNotSold = invoice.Good.Status != GoodsStatus.Sold && 
+                invoice.Good.Status != GoodsStatus.OnSale && 
+                invoice.Good.Status != GoodsStatus.Returned;
+
             bool isStorageTimeExpired = DateTime.Now > invoice.StorageDate;
             if (isStorageTimeExpired && isGoodsNotOnSaleOrNotSold) 
             {
@@ -24,10 +27,16 @@ namespace Training.Web.Services
         {
             goods.Status = GoodsStatus.OnSale;
         }
-
         public void Sell(Good goods)
         {
             goods.Status = GoodsStatus.Sold;
+        }
+        public void Return(Good goods)
+        {
+            if (goods.Status == GoodsStatus.Storing)
+            { 
+                goods.Status = GoodsStatus.Returned; 
+            }
         }
     }
 }
