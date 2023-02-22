@@ -58,7 +58,16 @@
         </div>
     </div>
     <br />
-
+    <form method="get">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <select name="status" style="width:50%" asp-items="@Model.StatusGoodsList" class="form-select" >
+                    <option value="">--Оберіть фільтр--</option>
+             </select>
+            &nbsp;&nbsp;&nbsp;
+            <input type="submit" value="Фільтрувати" class="btn btn-outline-success" />
+        </div>
+    </form>
+    <br />
     <table class="table table-bordered table-striped" style="width:100%;">
         <thead>
             <tr class="table-primary">
