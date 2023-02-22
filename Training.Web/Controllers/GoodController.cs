@@ -25,44 +25,16 @@ namespace Training.Web.Controllers
             IEnumerable<Category> objCategoryList = await _db.Categories.ToListAsync();
             IEnumerable<RegisteredInvoice> registeredInvoices = await _db.RegisteredInvoices.Include(x => x.Good).ToListAsync();
             IEnumerable<Good> objGoodList = registeredInvoices.Select(x => x.Good).ToList();
+            GoodsTableModelService goodsTableModelService = new GoodsTableModelService();
             foreach (var item in registeredInvoices) 
             {
                 _goodsService.CheckStorageExpirationDate(item);
             }
 
-            var objGoodsTableModel = objGoodList.Select(p => 
-                new GoodsTableModel {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Description = p.Description,
-                    Status = p.Status,
-                    AppraisedValue = p.AppraisedValue,
-                    Category = p.Category,
-                    CategoryId = p.CategoryId,
-                    Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)}
-            ).ToList();
+            var objGoodsTableModel = goodsTableModelService.ToGoodsTableModelList(objGoodList, x => status == null || 
+            status == "-1" ||
+            x.Status.ToString() == status);
 
-
-            if (String.IsNullOrEmpty(status) || status == "-1")
-            {
-                    objGoodsTableModel = objGoodList.Select(p =>
-                    new GoodsTableModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Description = p.Description,
-                        Status = p.Status,
-                        AppraisedValue = p.AppraisedValue,
-                        Category = p.Category,
-                        CategoryId = p.CategoryId,
-                        Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)
-                    }
-                ).ToList();
-            }
-            else
-            {
-                objGoodsTableModel = objGoodsTableModel.Where(x => x.Status.ToString() == status).ToList();
-            }
 
             SelectList StatusGoodsList = new SelectList(
                     new List<SelectListItem>
