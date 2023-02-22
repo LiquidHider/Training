@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Training.Web.Data;
 using Training.Web.Models;
 using Training.Web.Services;
+using static iTextSharp.text.pdf.AcroFields;
 
 namespace Training.Web.Controllers
 {
@@ -17,7 +18,9 @@ namespace Training.Web.Controllers
             _db = db;
             _goodsService = goodsService;
         }
-        public async Task<IActionResult> Index()
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string? status)
         {
             IEnumerable<Category> objCategoryList = await _db.Categories.ToListAsync();
             IEnumerable<RegisteredInvoice> registeredInvoices = await _db.RegisteredInvoices.Include(x => x.Good).ToListAsync();
@@ -26,7 +29,7 @@ namespace Training.Web.Controllers
             {
                 _goodsService.CheckStorageExpirationDate(item);
             }
-            
+
             var objGoodsTableModel = objGoodList.Select(p => 
                 new GoodsTableModel {
                     Id = p.Id,
@@ -39,24 +42,42 @@ namespace Training.Web.Controllers
                     Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)}
             ).ToList();
 
+
+            if (String.IsNullOrEmpty(status) || status == "-1")
+            {
+                    objGoodsTableModel = objGoodList.Select(p =>
+                    new GoodsTableModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name,
+                        Description = p.Description,
+                        Status = p.Status,
+                        AppraisedValue = p.AppraisedValue,
+                        Category = p.Category,
+                        CategoryId = p.CategoryId,
+                        Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)
+                    }
+                ).ToList();
+            }
+            else
+            {
+                objGoodsTableModel = objGoodsTableModel.Where(x => x.Status.ToString() == status).ToList();
+            }
+
             SelectList StatusGoodsList = new SelectList(
                     new List<SelectListItem>
                     {
-                        new SelectListItem { Text = $"{GoodsStatusString.STORING}", Value = GoodsStatusString.STORING},
-                        new SelectListItem { Text = $"{GoodsStatusString.EXPIRED}", Value = GoodsStatusString.EXPIRED},
-                        new SelectListItem { Text = $"{GoodsStatusString.ONSALE}", Value = GoodsStatusString.ONSALE},
-                        new SelectListItem { Text = $"{GoodsStatusString.SOLD}", Value = GoodsStatusString.SOLD},
-                        new SelectListItem { Text = $"{GoodsStatusString.RETURNED}", Value = GoodsStatusString.RETURNED},
+                        new SelectListItem { Text = $"Всі", Value = "-1"},
+                        new SelectListItem { Text = $"{GoodsStatusString.STORING}", Value = GoodsStatus.Storing.ToString()},
+                        new SelectListItem { Text = $"{GoodsStatusString.EXPIRED}", Value = GoodsStatus.Expired.ToString()},
+                        new SelectListItem { Text = $"{GoodsStatusString.ONSALE}", Value = GoodsStatus.OnSale.ToString()},
+                        new SelectListItem { Text = $"{GoodsStatusString.SOLD}", Value = GoodsStatus.Sold.ToString()},
+                        new SelectListItem { Text = $"{GoodsStatusString.RETURNED}", Value =  GoodsStatus.Returned.ToString()},
                     }, "Value", "Text");
 
             var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel , StatusGoodsList = StatusGoodsList };
             return View(model);
         }
-
-        //public IActionResult Filter(string search)
-        //{
-
-        //}
 
         [HttpGet, ActionName("PutOnSale")]
         public async Task<IActionResult> PutUpForSale(int? id) 

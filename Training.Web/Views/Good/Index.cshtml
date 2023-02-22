@@ -60,13 +60,11 @@
     <br />
     <form method="get">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <select style="width:50%" asp-items="@Model.StatusGoodsList" class="form-select" >
+            <select name="status" style="width:50%" asp-items="@Model.StatusGoodsList" class="form-select" >
                     <option value="">--Оберіть фільтр--</option>
              </select>
             &nbsp;&nbsp;&nbsp;
-            <a asp-controller="Good" asp-action="" class="btn btn-outline-success">
-                Фільтрувати
-            </a>
+            <input type="submit" value="Фільтрувати" class="btn btn-outline-success" />
         </div>
     </form>
     <br />
