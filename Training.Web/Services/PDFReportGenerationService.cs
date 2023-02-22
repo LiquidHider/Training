@@ -1,9 +1,6 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
-using System.Data;
 using Training.Web.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using Training.Web.Converters;
 
 namespace Training.Web.Services
@@ -36,8 +33,7 @@ namespace Training.Web.Services
             PdfWriter.GetInstance(Report, new FileStream(filePath, FileMode.Create));
             Report.Open();
 
-            var reportTable = converter.ToDataTable(_db.Goods.ToList()); //dataSet.Tables[0];
-
+            var reportTable = converter.ToDataTable(_db.Goods.ToList());
             PdfPTable table = new PdfPTable(reportTable.Columns.Count);
             PdfPCell cell = new PdfPCell(new Phrase("Report"));
             cell.Colspan = reportTable.Columns.Count;

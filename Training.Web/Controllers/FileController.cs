@@ -6,12 +6,10 @@ namespace Training.Web.Controllers
 {
     public class FileController : Controller
     {
-        private readonly ApplicationDBContext _db;
         private readonly IWebHostEnvironment _env;
         private readonly IDocumentGenerationService _docGenService;
-        public FileController(ApplicationDBContext db,IWebHostEnvironment env, IDocumentGenerationService docGenService)
+        public FileController(IWebHostEnvironment env, IDocumentGenerationService docGenService)
         {
-            _db = db;
             _env = env;
             _docGenService = docGenService;
         }
