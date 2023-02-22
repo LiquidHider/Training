@@ -31,17 +31,17 @@ namespace Training.Web.Services
                 _goodsService.CheckStorageExpirationDate(item);
             }
 
-            var objGoodsTableModel = objGoodList.Select(p =>
-                new GoodsTableModel
+            var objGoodsReportModel = objGoodList.Select(p =>
+                new GoodsReportModel
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Description = p.Description,
                     Status = p.Status,
                     AppraisedValue = p.AppraisedValue,
-                    Category = p.Category,
-                    CategoryId = p.CategoryId,
-                    Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)
+                    Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2),
+                    Category = p.Category.Name,
+                    ReceiptDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).ReceiptDate,
+                    StorageDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).StorageDate
                 }
             ).ToList();
             //
@@ -65,7 +65,7 @@ namespace Training.Web.Services
 
             Paragraph title = new Paragraph("Pawnshop - Fourty Two");
             title.Alignment = Element.ALIGN_RIGHT;
-            Paragraph date = new Paragraph($"Date of formation {DateTime.Now.ToString("yyyy-MM-dd")}");
+            Paragraph date = new Paragraph($"Date of formation {DateTime.Now.ToString("dd.MM.yyyy HH:mm")}");
             date.Alignment = Element.ALIGN_RIGHT;
             Report.Add(title);
             Report.Add(date);
@@ -75,12 +75,14 @@ namespace Training.Web.Services
             Report.Add(namedoc);
 
             //TABLE
-            var reportTable = converter.ToDataTable(objGoodsTableModel);
+            var reportTable = converter.ToDataTable(objGoodsReportModel);
             PdfPTable table = new PdfPTable(reportTable.Columns.Count);
             PdfPCell cell = new PdfPCell(new Phrase("\nGoods\n"));
+            table.SetTotalWidth(new float[] { 30f, 60f, 60f, 60f, 65f, 60f, 75f, 75f });
+            table.LockedWidth = true;
             cell.Colspan = reportTable.Columns.Count;
-            cell.VerticalAlignment = 1;
             cell.HorizontalAlignment = 1;
+            cell.VerticalAlignment = 1;
             cell.Border = 0;
             table.AddCell(cell);
             for (int j = 0; j < reportTable.Columns.Count; j++)
@@ -106,15 +108,13 @@ namespace Training.Web.Services
             fullNameField.FieldName = "fullName";
             fullNameField.SetFieldFlags(PdfFormField.FF_READ_ONLY);
             fullNameField.ValueAsString = "";
-            //fullNameField.SetAppearance(PdfAnnotation.APPEARANCE_NORMAL);
-            Report.Add(new Paragraph("\n\nFull Name ______________________________"));
+            Report.Add(new Paragraph("\n\nCashier    ______________________________"));
             writer.AddAnnotation(fullNameField);
 
             signatureField.SetWidget(new iTextSharp.text.Rectangle(100, 650, 300, 670), PdfAnnotation.HIGHLIGHT_INVERT);
             signatureField.FieldName = "signature";
             signatureField.SetFieldFlags(PdfFormField.FF_READ_ONLY);
             signatureField.ValueAsString = "";
-            //signatureField.SetAppearance(PdfAnnotation.APPEARANCE_NORMAL);
             Report.Add(new Paragraph("\nSignature ______________________________"));
             writer.AddAnnotation(signatureField);
 
