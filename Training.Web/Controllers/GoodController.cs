@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Training.Web.Data;
@@ -38,10 +39,24 @@ namespace Training.Web.Controllers
                     Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2)}
             ).ToList();
 
+            SelectList StatusGoodsList = new SelectList(
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = $"{GoodsStatusString.STORING}", Value = GoodsStatusString.STORING},
+                        new SelectListItem { Text = $"{GoodsStatusString.EXPIRED}", Value = GoodsStatusString.EXPIRED},
+                        new SelectListItem { Text = $"{GoodsStatusString.ONSALE}", Value = GoodsStatusString.ONSALE},
+                        new SelectListItem { Text = $"{GoodsStatusString.SOLD}", Value = GoodsStatusString.SOLD},
+                        new SelectListItem { Text = $"{GoodsStatusString.RETURNED}", Value = GoodsStatusString.RETURNED},
+                    }, "Value", "Text");
 
-            var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel };
+            var model = new GeneralModel { CategoryList = objCategoryList, GoodList = objGoodsTableModel , StatusGoodsList = StatusGoodsList };
             return View(model);
         }
+
+        //public IActionResult Filter(string search)
+        //{
+
+        //}
 
         [HttpGet, ActionName("PutOnSale")]
         public async Task<IActionResult> PutUpForSale(int? id) 
@@ -135,6 +150,9 @@ namespace Training.Web.Controllers
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
+
 
     }
 }
