@@ -12,6 +12,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlSer
     ));;
 
 builder.Services.AddScoped<IGoodsService, GoodsService>();
+builder.Services.AddScoped<IDocumentGenerationService, PDFReportGenerationService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
