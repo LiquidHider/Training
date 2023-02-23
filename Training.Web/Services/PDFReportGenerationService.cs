@@ -24,7 +24,7 @@ namespace Training.Web.Services
         {
             //
             IEnumerable<Category> objCategoryList =  _db.Categories.ToList();
-            IEnumerable<RegisteredInvoice> registeredInvoices =  _db.RegisteredInvoices.Include(x => x.Good).ToList();
+            IEnumerable<RegisteredInvoice> registeredInvoices =  _db.RegisteredInvoices.Include(x => x.Good).Include(x => x.Good.Category).ToList();
             IEnumerable<Good> objGoodList = registeredInvoices.Select(x => x.Good).ToList();
             foreach (var item in registeredInvoices)
             {
