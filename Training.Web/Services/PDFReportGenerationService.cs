@@ -40,8 +40,8 @@ namespace Training.Web.Services
                     AppraisedValue = p.AppraisedValue,
                     Commision = Math.Round((p.AppraisedValue * p.Category.Commision) / 100, 2),
                     Category = p.Category.Name,
-                    ReceiptDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).ReceiptDate,
-                    StorageDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).StorageDate
+                    ReceiptDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).ReceiptDate.ToString("dd.MM.yyyy"),
+                    StorageDate = registeredInvoices.FirstOrDefault(x => x.GoodId == p.Id).StorageDate.ToString("dd.MM.yyyy")
                 }
             ).ToList();
             //

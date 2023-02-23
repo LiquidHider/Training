@@ -18,8 +18,8 @@ namespace Training.Web.Models
 
         public string Category { get; set; }
 
-        public DateTime ReceiptDate { get; set; }
+        public string ReceiptDate { get; set; }
 
-        public DateTime StorageDate { get; set; }
+        public string StorageDate { get; set; }
     }
 }
