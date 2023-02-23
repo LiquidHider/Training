@@ -1,5 +1,9 @@
 @model Good
-<div class="form-location">
+@{
+    ViewData["Title"] = "Видалення товару: " + Model.Name;
+}
+
+    <div class="form-location">
     <div></div>
     <form method="post" asp-controller="Good" asp-action="Delete">
         <input asp-for="Id" hidden />

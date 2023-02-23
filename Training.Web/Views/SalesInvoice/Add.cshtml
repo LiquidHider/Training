@@ -1,5 +1,7 @@
 ﻿@model SalesInvoice
-
+@{
+    ViewData["Title"] = "Нова Вид. накладна";
+}
 <div class="form-location">
     <div></div>
     <form method="post" asp-controller="SalesInvoice" asp-action="Add" enctype="multipart/form-data">

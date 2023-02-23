@@ -1,7 +1,9 @@
 @model RegisteredInvoice
+
 @{
     var nowLoadTime = DateTime.Now.AddMinutes(1).ToString("yyyy-MM-ddTHH:mm");
     var endLoadTime = DateTime.Now.AddMinutes(16).ToString("yyyy-MM-ddTHH:mm");
+    ViewData["Title"] = "Нова Ім. накладна";
 }
 
 <div class="form-location">

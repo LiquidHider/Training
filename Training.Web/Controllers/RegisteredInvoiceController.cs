@@ -16,12 +16,12 @@ namespace Training.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? Id)
         {
-            var data = await _db.RegisteredInvoices
+            var data = _db.RegisteredInvoices
                 .Include(x => x.Good)
                 .Include(x => x.Client)
-                .ToListAsync();
+                .ToList().Where(x => Id == null ||  x.Good.Id == Id);
 
             return View(data);
         }

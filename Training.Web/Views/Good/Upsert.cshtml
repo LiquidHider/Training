@@ -1,5 +1,7 @@
 @model Good
-
+@{
+    ViewData["Title"] = Model.Id != 0 ? "Редагування товару: " + Model.Name : "Новий товар";
+}
 <div class="form-location">
     <div></div>
     <form method="post" asp-controller="Good" asp-action="Upsert" enctype="multipart/form-data">

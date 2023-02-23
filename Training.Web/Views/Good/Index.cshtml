@@ -1,5 +1,8 @@
 ﻿@model GeneralModel
 
+@{
+    ViewData["Title"] = "Товари";
+}
 
 <partial name="_Notification" />
 <br />
@@ -96,6 +99,9 @@
                             <a asp-controller="Good" asp-action="Upsert" asp-route-id="@obj.Id"><i class="bi bi-pencil"></i></a>
                             &nbsp;
                             <a asp-controller="Good" asp-action="Delete" asp-route-id="@obj.Id"><i class="bi bi-trash"></i></a>
+                            &nbsp;
+                            <a asp-controller="RegisteredInvoice" asp-action="Index" asp-route-id="@obj.Id"><i class="bi bi-arrow-down-left-square-fill"></i></a>
+                            
                         </div>
                     </td>
 

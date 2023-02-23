@@ -1,5 +1,7 @@
 @model Client
-
+@{
+    ViewData["Title"] = "Видалення клієнта " + Model.FullName;
+}
 <div class="form-location"><div></div>
 <form method="post" asp-action="Delete">
   <input asp-for="Id" hidden />
